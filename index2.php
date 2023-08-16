@@ -40,8 +40,6 @@
 
 <?php
 
-echo "OK";exit;
-
 if (isset($_POST["submit"])) {
 
 	
@@ -121,6 +119,19 @@ if (isset($_POST["submit"])) {
 		}
 	
 		return null;
+	}
+
+	function elementwise_multiply($array1, $array2) {
+		if (count($array1) !== count($array2)) {
+			return null; // Arrays must have the same size for element-wise multiplication
+		}
+	
+		$result = [];
+		for ($i = 0; $i < count($array1); $i++) {
+			$result[] = $array1[$i] * $array2[$i];
+		}
+		
+		return $result;
 	}
 
     for ($j=1; $j <= $_POST["jumlah_pencucian"]; $j++) {
@@ -263,7 +274,7 @@ if (isset($_POST["submit"])) {
 		FungsiInferensiBanyak($value_tebal, $value_tinggi, $value_gelap, $value_berat);
 
 		$num_points = 1000;
-		$step_size = 100 / (num_points - 1)
+		$step_size = 100 / ($num_points - 1);
 		$x = linspace(0, 100, $num_points);
 		$y = zeros_like($x);
 
@@ -277,15 +288,17 @@ if (isset($_POST["submit"])) {
 					$y[$l] = 0;
 				} else if ($x[$l] > $start && $x[$l] <= $takaran[$k][1]) {
 					$y[$l] = ($x[$l] - $start) / ($takaran[$k][1] - $start);
-				} else if ($x[$l] > $takaran[$i][1] && $x[$l] < $end) {
-					$y[$l] = ($end - $x[$l]) / ($end - $takaran[$i][1]);
+				} else if ($x[$l] > $takaran[$k][1] && $x[$l] < $end) {
+					$y[$l] = ($end - $x[$l]) / ($end - $takaran[$k][1]);
 				} else {
 					$y[$l] = 0;
 				}
 				
 			}
 
-			$defuzz_result = numpy_sum($x * $y) / numpy_sum($y);
+
+			$multiply_sum = elementwise_multiply($x, $y); 
+			$defuzz_result = numpy_sum($multiply_sum) / numpy_sum($y);
 			$rounded_result = round($defuzz_result / 40) * 40;
 		}
 
