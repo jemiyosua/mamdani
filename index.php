@@ -69,6 +69,7 @@ if (isset($_POST["submit"]) || isset($_POST["submit2"])) {
 
 }
 
+$jumlah_pencucian = 0;
 if (isset($_POST["submit"])) {
 	$jumlah_pencucian = $_POST["jumlah_pencucian"];
 }
